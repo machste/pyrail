@@ -9,6 +9,7 @@ class DCCppCli(CliSh):
     def __init__(self):
         super(DCCppCli, self).__init__("dccpp")
         self.register_command(ThrottleCmd, "throttle", "t")
+        self.register_command(LightCmd, "light")
         self.prompt = "dccpp>>> "
         self.dcc = None
 
@@ -68,7 +69,24 @@ class ThrottleCmd(ShCmd):
         return parser
 
     def run(self, session, line, args):
-        self.shell.dcc.throttle(args.cab, args.speed)
+        self.shell.dcc.throttle(1, args.cab, args.speed)
+        return True
+
+
+class LightCmd(ShCmd):
+    """Control the lights of a CAB"""
+
+    def define_argparser(self):
+        parser = super(LightCmd, self).define_argparser()
+        parser.add_argument("cab", metavar="CAB", type=int,
+               help="Address of the engine decoder")
+        parser.add_argument("light", metavar="STATE", type=int,
+               help="Light: 0: off, 1: on")
+        return parser
+
+    def run(self, session, line, args):
+        fn = 128 if args.light == 0 else 144
+        self.shell.dcc.function(args.cab, fn)
         return True
 
 

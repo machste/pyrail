@@ -69,13 +69,16 @@ class DCCpp(object):
     def power(self, state):
         self.power_on() if state else self.power_off()
 
-    def throttle(self, cab, speed):
+    def throttle(self, register, cab, speed):
         if speed < 0:
             direction = 0
             speed = -speed
         else:
             direction = 1
-        self.send_command("t", 1, cab, direction, speed)
+        self.send_command("t", register, cab, speed, direction)
+
+    def function(self, cab, fn):
+        self.send_command("f", cab, fn)
 
     def __repr__(self):
         return "<DCCpp<connected=%s>(port='%s', baudrate='%s')>" % (
