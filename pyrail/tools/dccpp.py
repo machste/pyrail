@@ -9,6 +9,7 @@ class DCCppCli(CliSh):
     def __init__(self):
         super(DCCppCli, self).__init__("dccpp")
         self.register_command(ThrottleCmd, "throttle", "t")
+        self.register_command(PointCmd, "point", "p")
         self.register_command(LightCmd, "light")
         self.prompt = "dccpp>>> "
         self.dcc = None
@@ -87,6 +88,21 @@ class LightCmd(ShCmd):
     def run(self, session, line, args):
         fn = 128 if args.light == 0 else 144
         self.shell.dcc.function(args.cab, fn)
+        return True
+
+class PointCmd(ShCmd):
+    """Control a point"""
+
+    def define_argparser(self):
+        parser = super(PointCmd, self).define_argparser()
+        parser.add_argument("point", metavar="POINT", type=int,
+               help="Address of the point")
+        parser.add_argument("state", metavar="STATE", type=int,
+               help="Point: 0: unthrown, 1: thrown")
+        return parser
+
+    def run(self, session, line, args):
+        self.shell.dcc.turnout(args.point, args.state)
         return True
 
 

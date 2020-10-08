@@ -80,6 +80,15 @@ class DCCpp(object):
     def function(self, cab, fn):
         self.send_command("f", cab, fn)
 
+    def turnout(self, addr, state):
+        self.send_command("a", addr, 0, state)
+
+    def write(self, cv, value, addr=0):
+        if addr == 0:
+            self.send_command("W", cv, value, 0, 0)
+        else:
+            self.send_command("w", addr, cv, value)
+
     def __repr__(self):
         return "<DCCpp<connected=%s>(port='%s', baudrate='%s')>" % (
                 self.connected, self.port, self.baudrate)
