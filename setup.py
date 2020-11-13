@@ -20,7 +20,8 @@ setup(
 	],
 	entry_points={
 		"console_scripts": [
-			"dccpp = pyrail.tools.dccpp:main"
+			"dccpp = pyrail.tools.dccpp:main",
+			"dcchttpd = pyrail.tools.dcchttpd:main"
 		]
 }
 )
