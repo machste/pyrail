@@ -61,10 +61,10 @@ class DCCpp(object):
         self.send_command("s")
 
     def power_on(self):
-        self.send_command("1")
+        return self.send_command("1")
 
     def power_off(self):
-        self.send_command("0")
+        return self.send_command("0")
 
     def power(self, state):
         self.power_on() if state else self.power_off()
@@ -81,7 +81,7 @@ class DCCpp(object):
         self.send_command("f", cab, fn)
 
     def turnout(self, addr, state):
-        self.send_command("a", addr, 0, state)
+        return self.send_command("a", addr, 0, state)
 
     def write(self, cv, value, addr=0):
         if addr == 0:
